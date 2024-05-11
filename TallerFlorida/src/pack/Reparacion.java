@@ -9,7 +9,7 @@ public class Reparacion extends Trabajo {
 	private TipoReparacion tipoReparacion;
 	private double costeMateriales;
 	private static final double INCREMENTO_MECANICA = 1.10;
-	private static final double INCREMENTO_CHAPAPINTURA = .30;
+	private static final double INCREMENTO_CHAPAPINTURA = 1.30;
 
 	public Reparacion(TipoReparacion tipoReparacion, double costeMateriales, double horasTrabajadas) {
 		super(horasTrabajadas);
@@ -41,6 +41,6 @@ public class Reparacion extends Trabajo {
 	public void mostrarInformacion() {
 		super.mostrarInformacion();
 		System.out.println("Tipo de reparación: " + tipoReparacion);
-		System.out.println("Costo de materiales: " + costeMateriales);
+		System.out.println("Coste de los materiales: " + costeMateriales);
 	}
 }
