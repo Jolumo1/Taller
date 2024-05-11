@@ -16,7 +16,7 @@ public class TallerMain {
 
 	private static int contadorTrabajos = 0;
 	private static int totalTrabajos = 0;
-	private static int maxTrabajos = 10;
+	private static int maxTrabajos = 100;
 	// array de tiradas con 100 posiciones
 	private static Trabajo[] listaTrabajos = new Trabajo[maxTrabajos];
 
@@ -243,6 +243,7 @@ public class TallerMain {
 	}
 
 	private static void listarTrabajos() {
+		//lista los trabajos por orden de entrada al registro ( los mas antiguos primero) 
 		for (int i = 0; i < contadorTrabajos; i++) {
 			System.out.println("ID: " + i);
 			listaTrabajos[i].mostrarInformacion();
