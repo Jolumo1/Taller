@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Random;
+
+import pack.Reparacion.TipoReparacion;
 
 public class TallerMain {
 
 	private static int contadorTrabajos = 0;
 	private static int totalTrabajos = 0;
-	private static int maxTrabajos = 100;
+	private static int maxTrabajos = 10;
 	// array de tiradas con 100 posiciones
 	private static Trabajo[] listaTrabajos = new Trabajo[maxTrabajos];
 
@@ -27,7 +30,12 @@ public class TallerMain {
 		arranqueDelPrograma();
 
 		while (!salir) {
-			System.out.println("\nMenú:");
+			System.out.println();
+			System.out.println();
+			System.out.println("     TALLERES FLORIDA, REPARACIONES A MEDIDA.");
+			dibujito1();
+			System.out.println();
+			System.out.println("Menu de opciones:");
 			System.out.println("1. Agregar trabajo");
 			System.out.println("2. Buscar trabajo");
 			System.out.println("3. Modificar trabajo");
@@ -35,7 +43,8 @@ public class TallerMain {
 			System.out.println("5. Cancelar trabajo");
 			System.out.println("6. Listar trabajos");
 			System.out.println("7. Listar trabajos pendientes");
-			System.out.println("8. Salir");
+			System.out.println("8. Mostrar total de trabajos realizados");
+			System.out.println("9. Salir");
 
 			try {
 				int opcion;
@@ -43,7 +52,13 @@ public class TallerMain {
 
 				switch (opcion) {
 				case 1:
-					System.out.println("Agregar trabajo:");
+
+					// Esto lo tenia en un metodo aparte, que a su vez llama al metodo
+					// agregarTrabajoAlista, pero como practicamente todo es pedir datos y hace solo
+					// una llamada a un metodo,
+					// lo he dejado en el main que me parece mas correcto.
+
+					System.out.println("Elije el tipo de trabajo:");
 					System.out.println("1. Revisión");
 					System.out.println("2. Reparación mecánica");
 					System.out.println("3. Reparación de chapa y pintura");
@@ -64,7 +79,7 @@ public class TallerMain {
 						System.out.println("Introduzca las horas de mano de obra");
 						double horas = Double.parseDouble(br1.readLine());
 
-						trabajo = new Reparacion(Reparacion.TipoReparacion.MECANICA, materiales, horas);
+						trabajo = new Reparacion(TipoReparacion.MECANICA, materiales, horas);
 
 					} else if (tipoTrabajo == 3) {
 						System.out.println("Introduzca el coste de los materiales");
@@ -73,11 +88,12 @@ public class TallerMain {
 						System.out.println("Introduzca las horas de mano de obra");
 						double horas = Double.parseDouble(br1.readLine());
 
-						trabajo = new Reparacion(Reparacion.TipoReparacion.CHAPAPINTURA, materiales, horas);
+						trabajo = new Reparacion(TipoReparacion.CHAPAPINTURA, materiales, horas);
 					}
 
 					if (trabajo != null) {
-						agregarTrabajo(trabajo);
+						agregarTrabajoAlista(trabajo);
+						System.out.println("Trabajo agregado a la lista.");
 					} else {
 						System.out.println("Opción inválida.");
 					}
@@ -85,20 +101,20 @@ public class TallerMain {
 
 				case 2:
 					System.out.println("Buscar trabajo:");
-					System.out.print("Índice del trabajo: ");
+					System.out.print("Introduce el indice del trabajo que quieres buscar para mostrar su información");
 					int indice = Integer.parseInt(br1.readLine());
 					buscarTrabajo(indice);
 					break;
 
 				case 3:
 					System.out.println("Modificar trabajo:");
-					System.out.print("Índice del trabajo: ");
+					System.out.print("Introduce el indice del trabajo a modificar: ");
 					indice = Integer.parseInt(br1.readLine());
 
-					System.out.print("Horas adicionales: ");
+					System.out.print("Indica las horas que quieres agregar: ");
 					double horasAdicionales = Double.parseDouble(br1.readLine());
 
-					System.out.print("Costo de materiales adicionales: ");
+					System.out.print("Indica el coste de materiales que quieres agregar: ");
 					double costeMateriales = Double.parseDouble(br1.readLine());
 
 					modificarTrabajo(indice, horasAdicionales, costeMateriales);
@@ -106,7 +122,7 @@ public class TallerMain {
 
 				case 4:
 					System.out.println("Finalizar trabajo:");
-					System.out.print("Índice del trabajo: ");
+					System.out.print("Introduce el indice del trabajo que quieres finalizar: ");
 					indice = Integer.parseInt(br1.readLine());
 
 					finalizarTrabajo(indice);
@@ -114,7 +130,7 @@ public class TallerMain {
 
 				case 5:
 					System.out.println("Cancelar trabajo:");
-					System.out.print("Índice del trabajo: ");
+					System.out.print("Introduce el indice del trabajo que quieres cancelar: ");
 					indice = Integer.parseInt(br1.readLine());
 
 					cancelarTrabajo(indice);
@@ -131,8 +147,13 @@ public class TallerMain {
 					break;
 
 				case 8:
+					mostrarTotalTrabajos();
+					break;
+
+				case 9:
 					guardarEnFichero();
 					salir = true;
+
 					break;
 
 				default:
@@ -142,17 +163,19 @@ public class TallerMain {
 
 			} catch (NumberFormatException | IOException e) {
 				// TODO Auto-generated catch block
-				System.out.println("Error try catch gigante Menu inicial" + e);;
+				System.out.println("Error try catch gigante deel menu inicial" + e);
+				;
 			}
 
 		}
 
 		System.out.println("Saliendo del programa.");
+		dibujito2();
 	}
 
 	// METTODOS//
 
-	private static void agregarTrabajo(Trabajo trabajo) {
+	private static void agregarTrabajoAlista(Trabajo trabajo) {
 		if (contadorTrabajos < maxTrabajos) {
 			listaTrabajos[contadorTrabajos] = trabajo;
 			contadorTrabajos++;
@@ -165,6 +188,7 @@ public class TallerMain {
 			listaTrabajos[maxTrabajos - 1] = trabajo;
 		}
 		totalTrabajos++;
+
 	}
 
 	private static void buscarTrabajo(int indiceListaTrabajos) {
@@ -172,13 +196,16 @@ public class TallerMain {
 		// datos.
 
 		if (indiceListaTrabajos >= 0 && indiceListaTrabajos < contadorTrabajos) {
+			System.out.println("ID: " + indiceListaTrabajos);
 			listaTrabajos[indiceListaTrabajos].mostrarInformacion();
+
 		} else {
 			System.out.println("Índice inválido. No se encontró el trabajo.");
 		}
 	}
 
 	private static void modificarTrabajo(int indiceListaTrabajo, double horasAgregar, double costeMateriales) {
+		//Si el indice que quieremos modificar esta entre el rango del contador de trabajo, llamamos a los metodos para modificar, como agregar horas, agregar coste etc...
 		if (indiceListaTrabajo >= 0 && indiceListaTrabajo < contadorTrabajos) {
 			listaTrabajos[indiceListaTrabajo].agregarHoras(horasAgregar);
 			if (listaTrabajos[indiceListaTrabajo] instanceof Reparacion) {
@@ -217,6 +244,7 @@ public class TallerMain {
 
 	private static void listarTrabajos() {
 		for (int i = 0; i < contadorTrabajos; i++) {
+			System.out.println("ID: " + i);
 			listaTrabajos[i].mostrarInformacion();
 			System.out.println("-----------------");
 		}
@@ -225,19 +253,64 @@ public class TallerMain {
 	private static void listarTrabajosPendientes() {
 		for (int i = 0; i < contadorTrabajos; i++) {
 			if (!listaTrabajos[i].estaCompletado()) {
+				System.out.println("ID: " + i);
 				listaTrabajos[i].mostrarInformacion();
 				System.out.println("-----------------");
 			}
 		}
 	}
 
-	private static void listarTrabajosPendientes2() {
-		for (int i = 0; i < contadorTrabajos; i++) {
-			if (!listaTrabajos[i].estaCompletado()) {
-				listaTrabajos[i].mostrarInformacion();
-				System.out.println("-----------------");
+	private static void mostrarTotalTrabajos() {
+		System.out.println("El total de trabajos realizado hasta la fecha es: " + totalTrabajos);
+		if (totalTrabajos == 0) {
+			System.out.println("Así no levantamos el país...");
+		}
+	}
+
+	private static void rellenarAutomaticamente() {
+		// Agregar 10 trabajos automáticamente con valores aleatorios para la mano de
+		// obra y el precio, ademas puede añadir los 3 tipos de trabajo a la vez sin
+		// hacerle nada.
+		// forma de redondear los valores y dejarlo solo en 2 decimales la tuve que
+		// buscar, hay que usar math.round multiplicar por 100 y dividir por 100... xD
+
+		Random aleatorio = new Random();
+
+		for (int i = 0; i < 10; i++) {
+			if (i % 2 == 0) {
+				Revision revision = new Revision(Math.round((aleatorio.nextDouble(9) + 1) * 100) / 100d);
+				agregarTrabajoAlista(revision);
+			} else if (i % 3 == 0) {
+				Reparacion reparacion = new Reparacion(TipoReparacion.MECANICA,
+						(Math.round((aleatorio.nextDouble(50) + 1) * 100) / 100d),
+						(Math.round((aleatorio.nextDouble(9) + 1) * 100) / 100d));
+				agregarTrabajoAlista(reparacion);
+			} else {
+				Reparacion reparacion = new Reparacion(TipoReparacion.CHAPAPINTURA,
+						(Math.round((aleatorio.nextDouble(50) + 1) * 100) / 100d),
+						(Math.round((aleatorio.nextDouble(9) + 1) * 100) / 100d));
+				agregarTrabajoAlista(reparacion);
 			}
 		}
+	}
+
+	private static void dibujito1() {
+		System.out.println("   .----.                                .---.");
+		System.out.println("  '---,  `.____________________________.'  _  `.");
+		System.out.println("       )   ____________________________   <_>  :");
+		System.out.println("  .---'  .'                            `.     .'");
+		System.out.println("   `----'                                `---'");
+		System.out.println("");
+	}
+
+	private static void dibujito2() {
+
+		System.out.println("                                     ___________________________");
+		System.out.println("    _____                          ,\\\\    ___________________    |");
+		System.out.println("   |     `------------------------'  ||  (___________________)   `|");
+		System.out.println("   |_____.------------------------._ ||  ____________________     |");
+		System.out.println("                                   `//__(____________________)___/");
+
 	}
 
 	// --------------------mETODOS FICHERO----------------------------------//
@@ -283,7 +356,7 @@ public class TallerMain {
 			contadorTrabajos = entrada.readInt();
 
 		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Fallo al recuperar el fichero");
+			System.out.println("Fallo al recuperar el fichero o no tiene datos");
 
 		}
 
@@ -303,6 +376,7 @@ public class TallerMain {
 
 			} else {
 				fichero.createNewFile();
+				rellenarAutomaticamente();
 			}
 
 		} catch (IOException e) {

@@ -1,11 +1,13 @@
 package pack;
 
-public abstract class Trabajo {
+import java.io.Serializable;
+
+public abstract class Trabajo implements Serializable{
 
 	protected enum TipoTrabajo {
 		REVISION, REPARACION
 	};
-
+	
 	protected TipoTrabajo tipoTrabajo;
 	protected double horasTrabajadas;
 	protected static final double PRECIO_HORA = 45.0; // Dejamos fijo el precio de la mano de obra
@@ -41,6 +43,7 @@ public abstract class Trabajo {
 	}
 
 	public void mostrarInformacion() {
+		System.out.println();
 		System.out.println("Tipo de trabajo: " + tipoTrabajo);
 		System.out.println("Horas trabajadas: " + horasTrabajadas);
 		System.out.println("Precio por hora: " + PRECIO_HORA);

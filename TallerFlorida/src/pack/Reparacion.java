@@ -2,6 +2,9 @@ package pack;
 
 public class Reparacion extends Trabajo {
 
+	//clase que hereda de trabajo, con sus atributos propios, un enum para el tipo de reparacion y los incrementos del precio los he puesto como final ya que serán constantes. 
+	// desarrolla el metodo abstractoq ue hereda de trabajo para calcular el importe segun las horas, el precio hora, los incrementos, ewtc..
+	
 	public enum TipoReparacion {
 		MECANICA, CHAPAPINTURA
 	};
