@@ -46,4 +46,23 @@ public class Reparacion extends Trabajo {
 		System.out.println("Tipo de reparación: " + tipoReparacion);
 		System.out.println("Coste de los materiales: " + costeMateriales);
 	}
+
+	public TipoReparacion getTipoReparacion() {
+		return tipoReparacion;
+	}
+
+	public void setTipoReparacion(TipoReparacion tipoReparacion) {
+		this.tipoReparacion = tipoReparacion;
+	}
+
+	public double getCosteMateriales() {
+		return costeMateriales;
+	}
+
+	public void setCosteMateriales(double costeMateriales) {
+		this.costeMateriales = costeMateriales;
+	}
+	
+	
+	
 }

@@ -31,11 +31,12 @@ public class TallerMain {
 
 		while (!salir) {
 			System.out.println();
-			System.out.println();
+			System.out.println("****************************************************");
 			System.out.println("     TALLERES FLORIDA, REPARACIONES A MEDIDA.");
 			dibujito1();
+			System.out.println("****************************************************");
 			System.out.println();
-			System.out.println("Menu de opciones:");
+			System.out.println("  Menu de opciones:");
 			System.out.println("1. Agregar trabajo");
 			System.out.println("2. Buscar trabajo");
 			System.out.println("3. Modificar trabajo");
@@ -101,8 +102,11 @@ public class TallerMain {
 
 				case 2:
 					System.out.println("Buscar trabajo:");
-					System.out.print("Introduce el indice del trabajo que quieres buscar para mostrar su información");
+					System.out.println("1. Revisiones");
+					System.out.println("2. Reparaciones mecánicas");
+					System.out.println("3. Reparaciones de chapa y pintura");
 					int indice = Integer.parseInt(br1.readLine());
+
 					buscarTrabajo(indice);
 					break;
 
@@ -191,21 +195,59 @@ public class TallerMain {
 
 	}
 
-	private static void buscarTrabajo(int indiceListaTrabajos) {
-		// Busca en el array el trabajo con el numero que se indique e imprime sus
-		// datos.
+	private static void buscarTrabajo(int tipoTrabajoBusqueda) {
+		System.out.println("Trabajos encontrados:");
 
-		if (indiceListaTrabajos >= 0 && indiceListaTrabajos < contadorTrabajos) {
-			System.out.println("ID: " + indiceListaTrabajos);
-			listaTrabajos[indiceListaTrabajos].mostrarInformacion();
+		for (int i = 0; i < contadorTrabajos; i++) {
+			Trabajo trabajo1 = listaTrabajos[i];
+			boolean mostrar = false;
 
-		} else {
-			System.out.println("Índice inválido. No se encontró el trabajo.");
+			// Filtrar por tipo de trabajo, pone a true el booleando si coincide el tipo de
+			// busqueda con el del usuario y lo muestra.
+			switch (tipoTrabajoBusqueda) {
+			case 1:
+				if (trabajo1 instanceof Revision) {
+					mostrar = true;
+				}
+
+				break;
+			case 2:
+				if (trabajo1 instanceof Reparacion
+						&& ((Reparacion) trabajo1).getTipoReparacion() == TipoReparacion.MECANICA) {
+
+					mostrar = true;
+				}
+				break;
+			case 3:
+				if (trabajo1 instanceof Reparacion
+						&& ((Reparacion) trabajo1).getTipoReparacion() == TipoReparacion.CHAPAPINTURA) {
+					mostrar = true;
+				}
+				break;
+
+			default:
+				System.out.println("Elige una opciópn correcta.");
+				break;
+			}
+			
+			if (mostrar) {
+				System.out.println();
+				System.out.print("ID: " + i);
+				trabajo1.mostrarInformacion();
+				System.out.println("-----------------");
+
+			}
+
 		}
+
 	}
 
+	
+
 	private static void modificarTrabajo(int indiceListaTrabajo, double horasAgregar, double costeMateriales) {
-		//Si el indice que quieremos modificar esta entre el rango del contador de trabajo, llamamos a los metodos para modificar, como agregar horas, agregar coste etc...
+		// Si el indice que quieremos modificar esta entre el rango del contador de
+		// trabajo, llamamos a los metodos para modificar, como agregar horas, agregar
+		// coste etc...
 		if (indiceListaTrabajo >= 0 && indiceListaTrabajo < contadorTrabajos) {
 			listaTrabajos[indiceListaTrabajo].agregarHoras(horasAgregar);
 			if (listaTrabajos[indiceListaTrabajo] instanceof Reparacion) {
@@ -218,6 +260,9 @@ public class TallerMain {
 	}
 
 	private static void finalizarTrabajo(int indiceListaTrabajo) {
+		// recibe el indice del trabajo a finalizar, recorre el array y si encuentra la
+		// posicion llama al metodo finalizar trabajo
+
 		if (indiceListaTrabajo >= 0 && indiceListaTrabajo < contadorTrabajos) {
 			listaTrabajos[indiceListaTrabajo].finalizarTrabajo();
 		} else {
@@ -243,18 +288,23 @@ public class TallerMain {
 	}
 
 	private static void listarTrabajos() {
-		//lista los trabajos por orden de entrada al registro ( los mas antiguos primero) 
+		// lista los trabajos por orden de entrada al registro ( los mas antiguos
+		// primero)
 		for (int i = 0; i < contadorTrabajos; i++) {
-			System.out.println("ID: " + i);
+			System.out.println();
+			System.out.print("ID: " + i);
 			listaTrabajos[i].mostrarInformacion();
 			System.out.println("-----------------");
 		}
 	}
 
 	private static void listarTrabajosPendientes() {
+		// recorre el array de trabajos e imprime cada posicion en la que el atributo
+		// booleano completado sea false.
 		for (int i = 0; i < contadorTrabajos; i++) {
 			if (!listaTrabajos[i].estaCompletado()) {
-				System.out.println("ID: " + i);
+				System.out.println();
+				System.out.print("ID: " + i);
 				listaTrabajos[i].mostrarInformacion();
 				System.out.println("-----------------");
 			}
