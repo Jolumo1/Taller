@@ -37,15 +37,15 @@ public class TallerMain {
 			System.out.println("****************************************************");
 			System.out.println();
 			System.out.println("  Menu de opciones:");
-			System.out.println("1. Agregar trabajo");
-			System.out.println("2. Buscar trabajo");
-			System.out.println("3. Modificar trabajo");
-			System.out.println("4. Finalizar trabajo");
-			System.out.println("5. Cancelar trabajo");
-			System.out.println("6. Listar trabajos");
-			System.out.println("7. Listar trabajos pendientes");
-			System.out.println("8. Mostrar total de trabajos realizados");
-			System.out.println("9. Salir");
+			System.out.println("1 - Agregar trabajo");
+			System.out.println("2 - Buscar trabajo");
+			System.out.println("3 - Modificar trabajo");
+			System.out.println("4 - Finalizar trabajo");
+			System.out.println("5 - Cancelar trabajo");
+			System.out.println("6 - Listar trabajos");
+			System.out.println("7 - Listar trabajos pendientes");
+			System.out.println("8 - Mostrar total de trabajos realizados");
+			System.out.println("9 - Salir");
 
 			try {
 				int opcion;
@@ -60,9 +60,9 @@ public class TallerMain {
 					// lo he dejado en el main que me parece mas correcto.
 
 					System.out.println("Elije el tipo de trabajo:");
-					System.out.println("1. Revisión");
-					System.out.println("2. Reparación mecánica");
-					System.out.println("3. Reparación de chapa y pintura");
+					System.out.println("1- Revisión");
+					System.out.println("2- Reparación mecánica");
+					System.out.println("3- Reparación de chapa y pintura");
 					int tipoTrabajo = Integer.parseInt(br1.readLine());
 
 					Trabajo trabajo = null;
@@ -102,9 +102,9 @@ public class TallerMain {
 
 				case 2:
 					System.out.println("Buscar trabajo:");
-					System.out.println("1. Revisiones");
-					System.out.println("2. Reparaciones mecánicas");
-					System.out.println("3. Reparaciones de chapa y pintura");
+					System.out.println("1- Revisiones");
+					System.out.println("2- Reparaciones mecánicas");
+					System.out.println("3- Reparaciones de chapa y pintura");
 					int indice = Integer.parseInt(br1.readLine());
 
 					buscarTrabajo(indice);
